@@ -1,0 +1,13 @@
+# Compiled class file
+*.class
+
+# Package Files
+*.jar
+*.zip
+*.tar.gz
+*.rar
+
+# IDEA Files
+*/.idea
+*/out
+*.iml

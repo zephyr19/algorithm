@@ -22,7 +22,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    private Node sentinel;
+    private final Node sentinel;
     private int size;
 
     // construct an empty deque
