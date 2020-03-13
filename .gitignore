@@ -11,3 +11,6 @@
 */.idea
 */out
 *.iml
+
+# slides
+/slides
