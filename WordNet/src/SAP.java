@@ -1,10 +1,10 @@
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.DepthFirstOrder;
 import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,13 +42,15 @@ public class SAP {
         if ((v == null) || (w == null)) {
             throw new IllegalArgumentException("Null argument");
         }
-        for (int orig : v) {
-            if (!isValidVertex(orig)) {
+        for (Object orig : v) {
+            if (orig == null) throw new IllegalArgumentException("Invalid argument 'null'");
+            if (!isValidVertex((int) orig)) {
                 throw new IllegalArgumentException("Invalid origin vertex " + orig);
             }
         }
-        for (int dest : w) {
-            if (!isValidVertex(dest)) {
+        for (Object dest : w) {
+            if (dest == null) throw new IllegalArgumentException("Invalid argument 'null'");
+            if (!isValidVertex((int) dest)) {
                 throw new IllegalArgumentException("Invalid destination vertex " + dest);
             }
         }
@@ -111,9 +113,17 @@ public class SAP {
 
     // do unit testing of this class
     public static void main(String[] args) {
-        In in = new In(args[0]);
-        Digraph G = new Digraph(in);
+        Digraph G = new Digraph(10);
+        G.addEdge(1, 2);
+        G.addEdge(2, 4);
         SAP sap = new SAP(G);
+        List<Integer> a = new ArrayList<>();
+        List<Integer> b = new ArrayList<>();
+        a.add(null);
+        a.add(null);
+        b.add(5);
+        b.add(null);
+        sap.ancestor(a, b);
         while (!StdIn.isEmpty()) {
             int v = StdIn.readInt();
             int w = StdIn.readInt();

@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class WordNet {
 
     private final ArrayList<String>[] synset;
-    private final HashMap<String, Integer> nouns;
+    private final HashMap<String, ArrayList<Integer>> nouns;
     private final SAP sap;
 
     // constructor takes the name of the two input files
@@ -21,7 +21,13 @@ public class WordNet {
             String[] strings = syn.readLine().split(",");
             index = Integer.parseInt(strings[0]);
             for (String noun : strings[1].split(" ")) {
-                nouns.put(noun, index);
+                if (nouns.containsKey(noun)) {
+                    nouns.get(noun).add(index);
+                } else {
+                    ArrayList<Integer> arrayList = new ArrayList<>();
+                    arrayList.add(index);
+                    nouns.put(noun, arrayList);
+                }
             }
         }
         synset = (ArrayList<String>[]) new ArrayList[index + 1];
@@ -29,7 +35,10 @@ public class WordNet {
             synset[i] = new ArrayList<>();
         }
         for (String noun : nouns.keySet()) {
-            synset[nouns.get(noun)].add(noun);
+            ArrayList<Integer> indices = nouns.get(noun);
+            for (int i : indices) {
+                synset[i].add(noun);
+            }
         }
         Digraph digraph = new Digraph(synset.length);
         In hyp = new In(hypernyms);
@@ -78,9 +87,9 @@ public class WordNet {
     // do unit testing of this class
     public static void main(String[] args) {
         WordNet wordNet = new WordNet("synsets.txt", "hypernyms.txt");
-        System.out.println(wordNet.distance("event", "miracle"));
-        System.out.println(wordNet.distance("change", "variation"));
-        System.out.println(wordNet.distance("event", "event"));
-        System.out.println(wordNet.distance("gate", "AND_gate"));
+        System.out.println(wordNet.distance("jimdandy", "thing"));
+        System.out.println(wordNet.sap("backbiter", "RU_486"));
+        System.out.println(wordNet.nouns.get("abstract_entity"));
+        System.out.println(wordNet.nouns.get("abstraction"));
     }
 }
