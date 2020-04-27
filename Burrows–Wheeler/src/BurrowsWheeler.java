@@ -65,34 +65,6 @@ public class BurrowsWheeler {
     // if args[0] is "-", apply Burrows-Wheeler transform
     // if args[0] is "+", apply Burrows-Wheeler inverse transform
     public static void main(String[] args) {
-//        int first = 3;
-//        String s = "ARD!RCAAAABB";
-//        ArrayList<Character> text = new ArrayList<>();
-//        for (int i = 0; i <s.length(); i++) text.add(s.charAt(i));
-//        char[] sorted = new char[text.size()];
-//        int[] cnt = new int[256];
-//        for (int i = 0; i < sorted.length; i++) cnt[text.get(i)]++;
-//        int index = 0;
-//        for (int i = 0; i < cnt.length; i++) {
-//            for (int j = 0; j < cnt[i]; j++) sorted[index++] = (char) i;
-//        }
-//        int[] next = new int[sorted.length];
-//        int[] start = new int[256];
-//        for (int i = 0; i < sorted.length; i++) {
-//            char c = sorted[i];
-//            for (int j = start[c]; j < sorted.length; j++) {
-//                if (c == text.get(j)) {
-//                    next[i] = j;
-//                    start[c] = j + 1;
-//                    break;
-//                }
-//            }
-//        }
-//        for (int i = 0; i < sorted.length; i++) {
-////            BinaryStdOut.write(sorted[first]);
-//            System.out.print(sorted[first]);
-//            first = next[first];
-//        }
         if      (args[0].equals("-")) transform();
         else if (args[0].equals("+")) inverseTransform();
     }

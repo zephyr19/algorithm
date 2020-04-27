@@ -1,55 +1,22 @@
-import java.util.PriorityQueue;
+import java.util.Arrays;
 
 public class CircularSuffixArray {
-    private static class Node implements Comparable<Node> {
-        private String c;
-        private final int i;
-
-        public Node(String c, int i) {
-            this.c = c;
-            this.i = i;
-        }
-
-        @Override
-        public int compareTo(Node o) {
-            return c.compareTo(o.c);  // the smaller the c is, the more priority it is.
-        }
-    }
-
-    private int[] indices;
-    private final int LEN = 4;
+    private Integer[] indices;
 
     // circular suffix array of s
     public CircularSuffixArray(String s) {
         if (s == null) throw new IllegalArgumentException();
         int len = s.length();
-        indices = new int[len];
-        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        for (int i = 0; i < len; i++) priorityQueue.add(new Node(s.charAt(i), i));
-        sort(priorityQueue, 0, s, 0);
-    }
-
-    private void sort(PriorityQueue<Node> priorityQueue, int offset, String s, int index) {
-        if (priorityQueue == null) throw new IllegalArgumentException();
-        if (priorityQueue.size() == 1) indices[index] = priorityQueue.remove().i;
-        if (offset == s.length()) {
-            while (!priorityQueue.isEmpty()) {
-                indices[index++] = priorityQueue.remove().i;
+        indices = new Integer[len];
+        for (int i = 0; i < len; i++) indices[i] = i;
+        Arrays.sort(indices, (o1, o2) -> {
+            for (int i = 0; i < len; i++) {
+                int cmp = s.charAt((o1 + i) % len) - s.charAt((o2 + i) % len);
+                if      (cmp < 0) return -1;
+                else if (cmp > 0) return +1;
             }
-        }
-        offset++;
-        while (!priorityQueue.isEmpty()) {
-            PriorityQueue<Node> subList = new PriorityQueue<>();
-            char pre = priorityQueue.peek().c;
-            while (!priorityQueue.isEmpty() && priorityQueue.peek().c == pre) {
-                Node node = priorityQueue.remove();
-                node.c = s.charAt((node.i + offset) % s.length());
-                subList.add(node);
-            }
-            int size = subList.size();
-            sort(subList, offset, s, index);
-            index += size;
-        }
+            return 0;
+        });
     }
 
     // length of s
